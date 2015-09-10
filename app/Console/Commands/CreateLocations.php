@@ -2,16 +2,13 @@
 
 namespace App\Console\Commands;
 
+use App\Viewport\Viewport;
 use Illuminate\Console\Command;
 use App\Location;
 use App\Direction;
 
 class CreateLocations extends Command
 {
-    const NORTH_VECTOR = "50,0,974,50";
-    const SOUTH_VECTOR = "50,750,974,800";
-    const WEST_VECTOR = "0,50,50,750";
-    const EAST_VECTOR = "974,50,1024,750";
 
     /**
      * The name and signature of the console command.
@@ -27,13 +24,14 @@ class CreateLocations extends Command
      */
     protected $description = 'Create new locations';
 
+    protected $viewPort;
+
     /**
      * Create a new command instance.
-     *
-     * @return void
      */
     public function __construct()
     {
+        $this->viewPort = new Viewport(800, 600, 50);
         parent::__construct();
     }
 
@@ -58,7 +56,7 @@ class CreateLocations extends Command
         $shoreMountains = new Location();
         $shoreMountains->id = 2;
         $shoreMountains->name = 'shore mountains';
-        $shoreMountains->image_name = 'shore_mountain.png';
+        $shoreMountains->image_name = 'shore_mountains.jpg';
 
         $caveEntrance = new Location();
         $caveEntrance->id = 3;
@@ -73,7 +71,7 @@ class CreateLocations extends Command
         $westBeach = new Location();
         $westBeach->id = 5;
         $westBeach->name = 'west beach';
-        $westBeach->image_name = 'west_beach.png';
+        $westBeach->image_name = 'west_beach.jpg';
 
         $forest = new Location();
         $forest->id = 6;
@@ -83,7 +81,7 @@ class CreateLocations extends Command
         $valley = new Location();
         $valley->id = 7;
         $valley->name = 'valley';
-        $valley->image_name = 'valley.png';
+        $valley->image_name = 'valley.jpg';
 
         $cottage = new Location();
         $cottage->id = 8;
@@ -98,7 +96,7 @@ class CreateLocations extends Command
         $fishermanVillage = new Location();
         $fishermanVillage->id = 10;
         $fishermanVillage->name = 'fisherman village';
-        $fishermanVillage->image_name = 'fisherman_village.png';
+        $fishermanVillage->image_name = 'fisherman_village.jpg';
 
         $cave->save();
         $shoreMountains->save();
@@ -132,14 +130,14 @@ class CreateLocations extends Command
         $direction->setSource($from);
         $direction->setDestination($to);
         $direction->description = $from->name.' to '.$to->name;
-        $direction->vector = self::SOUTH_VECTOR;
+        $direction->vector = (string)$this->viewPort->getSouthDirectionClickArea();
         $direction->save();
 
         $direction = new Direction();
         $direction->setSource($to);
         $direction->setDestination($from);
         $direction->description = $to->name.' to '.$from->name;
-        $direction->vector = self::NORTH_VECTOR;
+        $direction->vector = (string)$this->viewPort->getNorthDirectionClickArea();
         $direction->save();
     }
 
@@ -149,14 +147,14 @@ class CreateLocations extends Command
         $direction->setSource($from);
         $direction->setDestination($to);
         $direction->description = $from->name.' to '.$to->name;
-        $direction->vector = self::EAST_VECTOR;
+        $direction->vector = (string)$this->viewPort->getEastDirectionClickArea();
         $direction->save();
 
         $direction = new Direction();
         $direction->setSource($to);
         $direction->setDestination($from);
         $direction->description = $to->name.' to '.$from->name;
-        $direction->vector = self::WEST_VECTOR;
+        $direction->vector = (string)$this->viewPort->getWestDirectionClickArea();
         $direction->save();
     }
 
