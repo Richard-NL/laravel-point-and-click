@@ -16,3 +16,11 @@
 //});
 
 Route::get('/{id}', 'LocationController@showLocation')->where('id', '[0-9]+');
+
+Route::get('/item',
+    ['as' => 'item', 'uses' => 'ItemController@index']);
+
+Route::get('/item/create',
+    ['as' => 'item_create', 'uses' => 'ItemController@create']);
+Route::post('/item/create',
+    ['as' => 'item_store', 'uses' => 'ItemController@store']);

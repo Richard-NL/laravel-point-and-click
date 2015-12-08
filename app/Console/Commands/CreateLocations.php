@@ -4,8 +4,8 @@ namespace App\Console\Commands;
 
 use App\Viewport\Viewport;
 use Illuminate\Console\Command;
-use App\Location;
-use App\Direction;
+use App\Model\Location;
+use App\Model\Direction;
 
 class CreateLocations extends Command
 {

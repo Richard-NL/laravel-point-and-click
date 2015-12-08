@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Model;
 
 use App\DataTypes\Vector;
 use Illuminate\Database\Eloquent\Model;
